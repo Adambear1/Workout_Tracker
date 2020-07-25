@@ -5,8 +5,30 @@ const db = require("../models");
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/workout_tracker",
-  { useNewUrlParser: false }
+  { useNewUrlParser: true, useFindAndModify: false }
 );
+// Get
+router.get("/api/workouts/range", (req, res) => {
+  db.Workout.find({})
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+// Get One
+router.get("/api/workouts", (req, res) => {
+  db.Workout.find({})
+    .sort({ day: -1 })
+    .limit(1)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 // Post
 router.post("/api/workouts", (req, res) => {
   db.Workout.create(req.body)
@@ -19,41 +41,7 @@ router.post("/api/workouts", (req, res) => {
       console.log(message);
     });
 });
-// get all workout data
-router.get("/api/workouts/range", (req, res) => {
-  db.Workout.find({})
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
-// get last workout
-router.get("/api/workouts", (req, res) => {
-  db.Workout.find({})
-    .sort({ day: -1 })
-    .limit(1)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
-// add new workout
-router.post("/api/workouts", (req, res) => {
-  db.Workout.create(req.body)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
+// Update One
 router.put("/api/workouts/:id", (req, res) => {
   db.Workout.findOneAndUpdate(
     { _id: req.params.id },
