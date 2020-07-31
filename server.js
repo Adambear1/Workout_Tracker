@@ -18,10 +18,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // set up mongodb connection
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitnessDB", {
-  useNewUrlParser: true,
-});
-
+require("./config/db")(app);
 // require routes
 app.use(require("./routes/db-routes.js"));
 app.use(require("./routes/html-routes.js"));

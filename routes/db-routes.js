@@ -1,13 +1,13 @@
-require("dotenv").config();
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const db = require("../models");
 
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/workout_tracker",
-  { useNewUrlParser: true, useFindAndModify: false }
-);
-// Get
+mongoose.connect("mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+});
+
+// get all workout data
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
     .then((data) => {
@@ -17,7 +17,8 @@ router.get("/api/workouts/range", (req, res) => {
       res.json(err);
     });
 });
-// Get One
+
+// get last workout
 router.get("/api/workouts", (req, res) => {
   db.Workout.find({})
     .sort({ day: -1 })
@@ -29,19 +30,18 @@ router.get("/api/workouts", (req, res) => {
       res.json(err);
     });
 });
-// Post
+
+// add new workout
 router.post("/api/workouts", (req, res) => {
   db.Workout.create(req.body)
-    .then((result) => {
-      res.json(result);
-      console.log(result);
+    .then((data) => {
+      res.json(data);
     })
-    .catch(({ message }) => {
-      res.send(message);
-      console.log(message);
+    .catch((err) => {
+      res.json(err);
     });
 });
-// Update One
+
 router.put("/api/workouts/:id", (req, res) => {
   db.Workout.findOneAndUpdate(
     { _id: req.params.id },
