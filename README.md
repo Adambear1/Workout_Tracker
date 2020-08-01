@@ -17,7 +17,6 @@ Fitness Tracker is a full-stack application that allows the user to track and vi
 - [Usage](#usage)
 - [Finished Product](#finished-product)
 - [Directions for Future Development](#Directions-for-future-Development)
-- [Questions](#questions)
 
 ## Technologies
 
